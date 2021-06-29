@@ -41,28 +41,37 @@ export default class JsonDataTable extends LightningElement {
     @track jsonListSize;
     @track selectedRows = 0;
     @track balanceTotal = 0;
+
+    //this will be called on load of the component and will fetch the data from the api
     connectedCallback(){
+        //apex call to fetch the data and store that to the 
         getJsonList()
         .then(result => {
             this.jsonList = result;
             this.jsonListSize = this.jsonList.length;
+            this.calculateTotalBalance();
         })
         .catch(error => {
             this.error = error;
         });
     }
+
+    //to calculate the total balance 
     calculateTotalBalance(){
         this.balanceTotal = 0;
         this.jsonSelectedList.forEach(element => {
-            this.balanceTotal = this.balanceTotal + parseInt(element.balance);
+            this.balanceTotal = this.balanceTotal + parseFloat(element.balance);
         });
     }
+
+    //this is called when any of the row is marked checked
     handleRowSelection(event){
         const selectedRows = event.detail.selectedRows;
         this.selectedRows = selectedRows.length;
         this.jsonSelectedList = selectedRows;
-        this.calculateTotalBalance();
     }
+
+    //This is called on Add debt button to add a new record
     handleClickAdd(event){
         let newObj = new Object();
         newObj.creditorName = 'Navy FCU';
@@ -80,6 +89,8 @@ export default class JsonDataTable extends LightningElement {
         this.jsonList = listdata[0];
         this.jsonListSize = this.jsonList.length;
     }
+
+    //This is called from Remove Debt button to delete the records
     handleClickRemove(event){
         this.jsonSelectedList.forEach(element => {
             if(this.jsonList.length > 1){

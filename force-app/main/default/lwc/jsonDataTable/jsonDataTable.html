@@ -1,0 +1,25 @@
+<template>
+<!-- <h2>Json Datatable</h2> -->
+    <lightning-card>
+        <template if:true={jsonList}>
+            <lightning-datatable data={jsonList} onrowselection={handleRowSelection} 
+                                    columns={columns} key-field="Id">
+            </lightning-datatable>
+            <lightning-button variant="brand" label="Add Debt" title="Add Debt" onclick={handleClickAdd} 
+                                    class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label="Remove Debt" title="Remove Debt" onclick={handleClickRemove} 
+                                    class="slds-m-left_x-small"></lightning-button>
+            <div>
+                <span class="slds-m-left_x-small"> Total Row Count : {jsonListSize}</span>
+                <span class="slds-m-right_x-small" style="float: right;"> Check Row Count : {selectedRows}</span>   
+            </div>
+            <div style="background: dodgerblue;">
+                <span class="slds-m-left_x-small">Total : </span>
+                <span class="slds-m-right_x-small" style="float: right;">{balanceTotal} </span>
+            </div>
+        </template>
+        <template if:true={error}>
+            {error}
+        </template>
+    </lightning-card>
+</template>
